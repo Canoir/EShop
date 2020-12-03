@@ -1,8 +1,6 @@
 package ir.justdev.lab.myeshop;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,6 +14,7 @@ public class LoginActivity extends AppCompatActivity {
     private TextInputEditText edtUsername, edtPassword;
     private TextInputLayout edtUsernameL, edtPasswordL;
     private Button btnLogin;
+    private Utils utils;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,19 +22,16 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         init();
         final Database database = initDatabase();
-        btnLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                User user = database.get(edtUsername.getText().toString());
-                if (user != null) {
-                    if (user.Password.equals(edtPassword.getText().toString())) {
-                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                        finish();
-                    }
-                } else {
-                    edtUsernameL.setError("نام کاربری یا رمز عبور اشتباه است!");
-                    edtPassword.setError("نام کاربری یا رمز عبور اشتباه است!");
+        btnLogin.setOnClickListener(view -> {
+            User user = database.get(edtUsername.getText().toString().toLowerCase());
+            if (user != null) {
+                if (user.Password.equals(edtPassword.getText().toString())) {
+                    utils.setSharedPreferences("isLogged", true);
+                    utils.goTo(LoginActivity.this, MainActivity.class);
                 }
+            } else {
+                edtUsernameL.setError(getString(R.string.LoginError));
+                edtPasswordL.setError(getString(R.string.LoginError));
             }
         });
     }
@@ -46,6 +42,8 @@ public class LoginActivity extends AppCompatActivity {
         edtUsernameL = findViewById(R.id.activity_login_edtl1);
         edtPasswordL = findViewById(R.id.activity_login_edtl2);
         btnLogin = findViewById(R.id.activity_login_btn1);
+//
+        utils = new Utils(LoginActivity.this);
     }
 
     private Database initDatabase() {

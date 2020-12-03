@@ -1,8 +1,8 @@
 package ir.justdev.lab.myeshop;
 
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -15,6 +15,7 @@ public class RegisterActivity extends AppCompatActivity {
     private TextInputEditText edtUsername, edtPassword, edtReplyPassword;
     private TextInputLayout edtUsernameL, edtPasswordL, edtReplyPasswordL;
     private Button btnRegister;
+    private Utils utils;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,12 +23,24 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
         init();
         final Database database = initDatabase();
-        btnRegister.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (edtPassword.getText().toString().equals(edtReplyPassword.getText().toString()))
-                    database.add(new User(edtUsername.getText().toString(), edtPassword.getText().toString()));
+        btnRegister.setOnClickListener((view) -> {
+            if (database.get(edtUsername.getText().toString()) == null) {
+                edtUsernameL.setError(null);
+                if (edtPassword.getText().toString().equals(edtReplyPassword.getText().toString())) {
+                    if (database.add(new User(edtUsername.getText().toString().toLowerCase(), edtPassword.getText().toString()))) {
+                        utils.setSharedPreferences("isLogged", true);
+                        utils.goTo(RegisterActivity.this, MainActivity.class);
+                    } else {
+                        Toast.makeText(getApplicationContext(), "مشکل فنی غیر قابل تصور به وجود امده!", Toast.LENGTH_LONG).show();
+                    }
+                } else {
+                    edtPasswordL.setError("پسورد با تکرار آن مطابق نیست!");
+                    edtReplyPasswordL.setError("پسورد با تکرار آن مطابق نیست!");
+                }
+            } else {
+                edtUsernameL.setError("این نام کاربری موجود می باشد!");
             }
+
         });
     }
 
@@ -39,6 +52,8 @@ public class RegisterActivity extends AppCompatActivity {
         edtPasswordL = findViewById(R.id.activity_register_edtl2);
         edtReplyPasswordL = findViewById(R.id.activity_register_edtl3);
         btnRegister = findViewById(R.id.activity_register_btn1);
+//
+        utils = new Utils(RegisterActivity.this);
     }
 
     private Database initDatabase() {

@@ -23,17 +23,15 @@ public class Database extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
     }
-
     public User get(String username) {
         SQLiteDatabase db = getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM T_User WHERE UserName='" + username + "'", null);
         User user = null;
         if (cursor.moveToFirst())
             user = new User(cursor.getString(1), cursor.getString(2));
-        db.close();
         cursor.close();
+        db.close();
         return user;
     }
 

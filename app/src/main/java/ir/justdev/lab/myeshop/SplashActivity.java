@@ -9,24 +9,18 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class SplashActivity extends AppCompatActivity {
     private Button btnSignUp, btnSignIn;
+    private Utils utils;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        utils = new Utils(SplashActivity.this);
+        if ((Boolean) utils.getSharedPreferences("isLogged", false))
+            utils.goTo(SplashActivity.this, MainActivity.class);
         setContentView(R.layout.activity_splash);
         init();
-        btnSignIn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(SplashActivity.this, LoginActivity.class));
-            }
-        });
-        btnSignUp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(SplashActivity.this, RegisterActivity.class));
-            }
-        });
+        btnSignIn.setOnClickListener(view -> startActivity(new Intent(SplashActivity.this, LoginActivity.class)));
+        btnSignUp.setOnClickListener(view -> startActivity(new Intent(SplashActivity.this, RegisterActivity.class)));
     }
 
     private void init() {
