@@ -1,15 +1,21 @@
-package ir.justdev.lab.myeshop;
+package ir.justdev.lab.myeshop.Engine;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
+import androidx.recyclerview.widget.RecyclerView;
+
+import ir.justdev.lab.myeshop.Engine.RecyclerView.RecyclerViewAdapter;
+
 public class Utils {
     private Context context;
+    private Activity activity;
 
-    public Utils(Context context) {
+    public Utils(Context context, Activity activity) {
         this.context = context;
+        this.activity = activity;
     }
 
     public Object getSharedPreferences(String key, Object _default) {
@@ -43,9 +49,15 @@ public class Utils {
         }
         editor.apply();
     }
-
-    public void goTo(Activity activity, Class _class) {
-        context.startActivity(new Intent(context, _class));
+//  Activity => Context
+    public void goTo(Class _class) {
+        activity.startActivity(new Intent(context, _class));
         activity.finish();
+    }
+
+    public void addRecyclerView(int recyclerViewId, RecyclerView.LayoutManager layoutManager, RecyclerViewAdapter adapter) {
+        RecyclerView rcv1 = activity.findViewById(recyclerViewId);
+        rcv1.setLayoutManager(layoutManager);
+        rcv1.setAdapter(adapter);
     }
 }

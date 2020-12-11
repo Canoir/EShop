@@ -1,11 +1,13 @@
-package ir.justdev.lab.myeshop;
+package ir.justdev.lab.myeshop.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import ir.justdev.lab.myeshop.Engine.Utils;
+import ir.justdev.lab.myeshop.R;
 
 public class SplashActivity extends AppCompatActivity {
     private Button btnSignUp, btnSignIn;
@@ -14,9 +16,9 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        utils = new Utils(SplashActivity.this);
+        utils = new Utils(getApplicationContext(), SplashActivity.this);
         if ((Boolean) utils.getSharedPreferences("isLogged", false))
-            utils.goTo(SplashActivity.this, MainActivity.class);
+            utils.goTo(MainActivity.class);
         setContentView(R.layout.activity_splash);
         init();
         btnSignIn.setOnClickListener(view -> startActivity(new Intent(SplashActivity.this, LoginActivity.class)));

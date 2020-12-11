@@ -1,4 +1,4 @@
-package ir.justdev.lab.myeshop;
+package ir.justdev.lab.myeshop.Activity;
 
 import android.os.Bundle;
 import android.widget.Button;
@@ -8,7 +8,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
-import ir.justdev.lab.myeshop.Model.User;
+import ir.justdev.lab.myeshop.Models.Database;
+import ir.justdev.lab.myeshop.Models.Model.User;
+import ir.justdev.lab.myeshop.R;
+import ir.justdev.lab.myeshop.Engine.Utils;
 
 public class LoginActivity extends AppCompatActivity {
     private TextInputEditText edtUsername, edtPassword;
@@ -27,7 +30,7 @@ public class LoginActivity extends AppCompatActivity {
             if (user != null) {
                 if (user.Password.equals(edtPassword.getText().toString())) {
                     utils.setSharedPreferences("isLogged", true);
-                    utils.goTo(LoginActivity.this, MainActivity.class);
+                    utils.goTo(MainActivity.class);
                 }
             } else {
                 edtUsernameL.setError(getString(R.string.LoginError));
@@ -43,7 +46,7 @@ public class LoginActivity extends AppCompatActivity {
         edtPasswordL = findViewById(R.id.activity_login_edtl2);
         btnLogin = findViewById(R.id.activity_login_btn1);
 //
-        utils = new Utils(LoginActivity.this);
+        utils = new Utils(getApplicationContext(),LoginActivity.this);
     }
 
     private Database initDatabase() {

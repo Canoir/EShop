@@ -1,4 +1,4 @@
-package ir.justdev.lab.myeshop;
+package ir.justdev.lab.myeshop.Activity;
 
 import android.os.Bundle;
 import android.widget.Button;
@@ -9,7 +9,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
-import ir.justdev.lab.myeshop.Model.User;
+import ir.justdev.lab.myeshop.Engine.Utils;
+import ir.justdev.lab.myeshop.Models.Database;
+import ir.justdev.lab.myeshop.Models.Model.User;
+import ir.justdev.lab.myeshop.R;
 
 public class RegisterActivity extends AppCompatActivity {
     private TextInputEditText edtUsername, edtPassword, edtReplyPassword;
@@ -29,7 +32,7 @@ public class RegisterActivity extends AppCompatActivity {
                 if (edtPassword.getText().toString().equals(edtReplyPassword.getText().toString())) {
                     if (database.add(new User(edtUsername.getText().toString().toLowerCase(), edtPassword.getText().toString()))) {
                         utils.setSharedPreferences("isLogged", true);
-                        utils.goTo(RegisterActivity.this, MainActivity.class);
+                        utils.goTo(MainActivity.class);
                     } else {
                         Toast.makeText(getApplicationContext(), "مشکل فنی غیر قابل تصور به وجود امده!", Toast.LENGTH_LONG).show();
                     }
@@ -53,7 +56,7 @@ public class RegisterActivity extends AppCompatActivity {
         edtReplyPasswordL = findViewById(R.id.activity_register_edtl3);
         btnRegister = findViewById(R.id.activity_register_btn1);
 //
-        utils = new Utils(RegisterActivity.this);
+        utils = new Utils(getApplicationContext(), RegisterActivity.this);
     }
 
     private Database initDatabase() {

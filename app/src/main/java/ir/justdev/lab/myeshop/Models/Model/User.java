@@ -1,4 +1,4 @@
-package ir.justdev.lab.myeshop.Model;
+package ir.justdev.lab.myeshop.Models.Model;
 
 public class User {
     public String Username;
