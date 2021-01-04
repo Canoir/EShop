@@ -4,7 +4,12 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.view.View;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import ir.justdev.lab.myeshop.Engine.RecyclerView.RecyclerViewAdapter;
@@ -49,7 +54,8 @@ public class Utils {
         }
         editor.apply();
     }
-//  Activity => Context
+
+    //  Activity => Context
     public void goTo(Class _class) {
         activity.startActivity(new Intent(context, _class));
         activity.finish();
@@ -59,5 +65,18 @@ public class Utils {
         RecyclerView rcv1 = activity.findViewById(recyclerViewId);
         rcv1.setLayoutManager(layoutManager);
         rcv1.setAdapter(adapter);
+    }
+    public void addRecyclerView(int recyclerViewId, RecyclerView.LayoutManager layoutManager, RecyclerViewAdapter adapter, View view) {
+        RecyclerView rcv1 = view.findViewById(recyclerViewId);
+        rcv1.setLayoutManager(layoutManager);
+        rcv1.setAdapter(adapter);
+    }
+
+    public boolean setFragment(Fragment fragment, int container) {
+        FragmentTransaction transaction = ((AppCompatActivity)activity).getSupportFragmentManager().beginTransaction();
+        transaction.replace(container, fragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+        return true;
     }
 }
