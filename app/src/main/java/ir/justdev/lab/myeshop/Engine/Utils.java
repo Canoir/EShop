@@ -5,13 +5,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
+import ir.justdev.lab.myeshop.Engine.Model.PutExtra;
 import ir.justdev.lab.myeshop.Engine.RecyclerView.RecyclerViewAdapter;
 
 public class Utils {
@@ -61,11 +62,33 @@ public class Utils {
         activity.finish();
     }
 
+    public void goTo(Class _class, PutExtra... putExtras) {
+        Intent a = new Intent(context, _class);
+        for (PutExtra putExtra : putExtras)
+            if (putExtra.data instanceof Integer)
+                a.putExtra(putExtra.name, (Integer) putExtra.data);
+        activity.startActivity(a);
+        activity.finish();
+    }
+
+    public void goTo(Class _class, boolean notFinished) {
+        activity.startActivity(new Intent(context, _class));
+    }
+
+    public void goTo(Class _class, boolean notFinished, PutExtra... putExtras) {
+        Intent a = new Intent(context, _class);
+        for (PutExtra putExtra : putExtras)
+            if (putExtra.data instanceof Integer)
+                a.putExtra(putExtra.name, (Integer) putExtra.data);
+        activity.startActivity(a);
+    }
+
     public void addRecyclerView(int recyclerViewId, RecyclerView.LayoutManager layoutManager, RecyclerViewAdapter adapter) {
         RecyclerView rcv1 = activity.findViewById(recyclerViewId);
         rcv1.setLayoutManager(layoutManager);
         rcv1.setAdapter(adapter);
     }
+
     public void addRecyclerView(int recyclerViewId, RecyclerView.LayoutManager layoutManager, RecyclerViewAdapter adapter, View view) {
         RecyclerView rcv1 = view.findViewById(recyclerViewId);
         rcv1.setLayoutManager(layoutManager);
@@ -73,10 +96,18 @@ public class Utils {
     }
 
     public boolean setFragment(Fragment fragment, int container) {
-        FragmentTransaction transaction = ((AppCompatActivity)activity).getSupportFragmentManager().beginTransaction();
+        FragmentTransaction transaction = ((AppCompatActivity) activity).getSupportFragmentManager().beginTransaction();
         transaction.replace(container, fragment);
         transaction.addToBackStack(null);
         transaction.commit();
         return true;
+    }
+
+    public void alert(String message) {
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+    }
+
+    public void alert(String message, int length) {
+        Toast.makeText(context, message, length).show();
     }
 }
