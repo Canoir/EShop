@@ -127,7 +127,6 @@ public class CategoryActivity extends AppCompatActivity {
                         totalPrice.setText(_totalPrice + "");
 //
                         Picasso.get().load(products.get(position).imageAddress).into((ImageView) itemView.findViewById(R.id.recycler_view_item_latest_products_fit_img1));
-
                     }
                 }));
         return true;

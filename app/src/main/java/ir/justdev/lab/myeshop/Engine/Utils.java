@@ -12,12 +12,20 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.koushikdutta.async.future.FutureCallback;
+import com.koushikdutta.ion.Ion;
+
+import java.util.List;
+import java.util.Map;
+
 import ir.justdev.lab.myeshop.Engine.Model.PutExtra;
 import ir.justdev.lab.myeshop.Engine.RecyclerView.RecyclerViewAdapter;
 
 public class Utils {
-    private Context context;
-    private Activity activity;
+    private final Context context;
+    private final Activity activity;
 
     public Utils(Context context, Activity activity) {
         this.context = context;
@@ -110,4 +118,114 @@ public class Utils {
     public void alert(String message, int length) {
         Toast.makeText(context, message, length).show();
     }
+
+    //GET[url:String,Header[?],Query[?],Result]
+    /*
+     *   "Token" : "ADASDKAAOUDJAJAKW",
+     *   "Session": ["A","B"],
+     * */
+    public void GET(String url, FutureCallback<JsonObject> result) {
+        Ion.with(context)
+                .load(url)
+                .asJsonObject()
+                .setCallback(new FutureCallback<JsonObject>() {
+                    @Override
+                    public void onCompleted(Exception e, JsonObject r) {
+                        result.onCompleted(e, r);
+                    }
+                });
+    }
+
+    public void GET(String url, FutureCallback<JsonArray> result, boolean isArray) {
+        Ion.with(context)
+                .load(url)
+                .asJsonArray()
+                .setCallback(new FutureCallback<JsonArray>() {
+                    @Override
+                    public void onCompleted(Exception e, JsonArray r) {
+                        result.onCompleted(e, r);
+                    }
+                });
+    }
+
+    public void GET(String url, Map<String, List<String>> queries, FutureCallback<JsonObject> result) {
+        Ion.with(context)
+                .load(url)
+                .addQueries(queries)
+                .asJsonObject()
+                .setCallback(new FutureCallback<JsonObject>() {
+                    @Override
+                    public void onCompleted(Exception e, JsonObject r) {
+                        result.onCompleted(e, r);
+                    }
+                });
+    }
+
+    public void GET(String url, Map<String, List<String>> queries, FutureCallback<JsonArray> result, boolean isArray) {
+        Ion.with(context)
+                .load(url)
+                .addQueries(queries)
+                .asJsonArray()
+                .setCallback(new FutureCallback<JsonArray>() {
+                    @Override
+                    public void onCompleted(Exception e, JsonArray r) {
+                        result.onCompleted(e, r);
+                    }
+                });
+    }
+
+    public void GET(Map<String, List<String>> headers, String url, FutureCallback<JsonObject> result) {
+        Ion.with(context)
+                .load(url)
+                .addHeaders(headers)
+                .asJsonObject()
+                .setCallback(new FutureCallback<JsonObject>() {
+                    @Override
+                    public void onCompleted(Exception e, JsonObject r) {
+                        result.onCompleted(e, r);
+                    }
+                });
+    }
+
+    public void GET(Map<String, List<String>> headers, String url, FutureCallback<JsonArray> result, boolean isArray) {
+        Ion.with(context)
+                .load(url)
+                .addHeaders(headers)
+                .asJsonArray()
+                .setCallback(new FutureCallback<JsonArray>() {
+                    @Override
+                    public void onCompleted(Exception e, JsonArray r) {
+                        result.onCompleted(e, r);
+                    }
+                });
+    }
+
+    public void GET(String url, Map<String, List<String>> headers, Map<String, List<String>> queries, FutureCallback<JsonObject> result) {
+        Ion.with(context)
+                .load(url)
+                .addHeaders(headers)
+                .addQueries(queries)
+                .asJsonObject()
+                .setCallback(new FutureCallback<JsonObject>() {
+                    @Override
+                    public void onCompleted(Exception e, JsonObject r) {
+                        result.onCompleted(e, r);
+                    }
+                });
+    }
+
+    public void GET(String url, Map<String, List<String>> headers, Map<String, List<String>> queries, FutureCallback<JsonArray> result, boolean isArray) {
+        Ion.with(context)
+                .load(url)
+                .addHeaders(headers)
+                .addQueries(queries)
+                .asJsonArray()
+                .setCallback(new FutureCallback<JsonArray>() {
+                    @Override
+                    public void onCompleted(Exception e, JsonArray r) {
+                        result.onCompleted(e, r);
+                    }
+                });
+    }
+    //POST
 }
